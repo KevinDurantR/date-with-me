@@ -149,11 +149,14 @@
       user-select: none;
     }
 
-    /* 表单输入框/下拉框 核心修正：限制最大宽度，移动端不拉伸过长 */
+    /* ========== 关键修复：日期输入框容器使用flex，强制允许缩小 min-width:0 !important ========== */
     .input-item {
-      width: 100%;
-      max-width: 480px;
-      margin: 18px auto;
+      width:100%;
+      max-width:420px;
+      margin:18px auto;
+      display:flex;
+      flex-direction:column;
+      min-width:0 !important;
     }
 
     .input-item label {
@@ -164,13 +167,20 @@
 
     .input-item input,
     .input-item select {
-      width: 100%;
+      width:100%;
+      min-width:0 !important;  /* IOS Safari核心！允许控件收缩，拒绝系统强制最小宽度 */
       padding: 14px 18px;
       border: 3px solid #000;
       border-radius: 18px;
       font-size: 17px;
       box-shadow: 4px 4px 0 #000;
       background: #fff;
+    }
+    /* 专门针对ios date输入框重置webkit渲染行为 */
+    input[type="date"]{
+      -webkit-appearance:none;
+      -moz-appearance:none;
+      appearance:none;
     }
 
     /* 美食九宫格 */
@@ -243,6 +253,9 @@
       .info-box {
         grid-template-columns: 1fr;
       }
+      .input-item{
+        max-width:100%;
+      }
     }
   </style>
 </head>
@@ -276,7 +289,7 @@
       </div>
     </div>
 
-    <!-- 页面4：选择时间页（已修复输入框过长问题） -->
+    <!-- 页面4：选择时间页 -->
     <div class="page page4">
       <div style="width: 110px; height: 110px; margin: 0 auto 24px; background: #ff33aa; border-radius: 20px; border: 3px solid #000; display: flex; align-items: center; justify-content: center; font-size: 45px;">📅</div>
       <h1>所以...你什么时候有空？😊</h1>
